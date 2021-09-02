@@ -13,8 +13,6 @@ DEFAULT_GAS_PRICE = 1000000000
 GAS_PER_DATA_BYTE = 1500
 MIN_GAS_LIMIT = 50000
 
-logger = Logger('config')
-
 
 class MetaChainSystemSCsCost:
     STAKE = 5000000
@@ -196,5 +194,5 @@ def add_config_args(argv):
 
     extra_args = [[f'--{key}', f'{value}'] for key, value in extra_func[subcommand].items()]
     extra_args = list(chain.from_iterable(extra_args))
-    logger.info(f"Added extra args from erdpy.json: {extra_args}")
+    print(f"Added extra args from erdpy.json: {extra_args}")
     return argv + extra_args
