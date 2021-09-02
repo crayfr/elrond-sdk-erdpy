@@ -194,5 +194,5 @@ def add_config_args(argv):
 
     extra_args = [[f'--{key}', f'{value}'] for key, value in extra_func[subcommand].items()]
     extra_args = list(chain.from_iterable(extra_args))
-    print(f"Added extra args from erdpy.json: {extra_args}")
+    print(f"Added extra args from erdpy.json: {argv + extra_args}")
     return argv + extra_args
