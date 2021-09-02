@@ -11,7 +11,7 @@ logger = logging.getLogger("modules")
 
 
 class DependencyModule:
-    def __init__(self, key: str, aliases: List[str]):
+    def __init__(self, key: str, aliases: List[str]) -> None:
         self.key = key
         self.aliases = aliases
 
@@ -57,7 +57,7 @@ class DependencyModule:
 
 
 class StandaloneModule(DependencyModule):
-    def __init__(self, key: str, aliases: List[str] = None, repo_name=None):
+    def __init__(self, key: str, aliases: List[str] = None, repo_name=None) -> None:
         if aliases is None:
             aliases = list()
 
@@ -96,7 +96,7 @@ class StandaloneModule(DependencyModule):
         folder = path.join(self.get_parent_directory(), tag)
         return folder
 
-    def get_source_directory(self, tag: str):
+    def get_source_directory(self, tag: str) -> Path:
         folder = Path(self.get_directory(tag))
 
         # Due to how the GitHub creates archives for repository releases, the
@@ -108,9 +108,9 @@ class StandaloneModule(DependencyModule):
         source_folder = folder / (self.repo_name + '-' + tag)
         return source_folder
 
-    def get_parent_directory(self):
+    def get_parent_directory(self) -> Path:
         tools_folder = workstation.get_tools_folder()
-        return path.join(tools_folder, self.key)
+        return tools_folder / self.key
 
     def _get_download_url(self, tag: str) -> str:
         platform = workstation.get_platform()
@@ -128,14 +128,14 @@ class StandaloneModule(DependencyModule):
 
 
 class ArwenToolsModule(StandaloneModule):
-    def __init__(self, key: str, aliases: List[str] = None):
+    def __init__(self, key: str, aliases: List[str] = None) -> None:
         if aliases is None:
             aliases = list()
 
         super().__init__(key, aliases)
         self.repo_name = 'arwen-wasm-vm'
 
-    def _post_install(self, tag: str):
+    def _post_install(self, tag: str) -> None:
         dependencies.install_module('golang')
 
         self.build_binary(tag, 'arwendebug')
@@ -150,11 +150,11 @@ class ArwenToolsModule(StandaloneModule):
         golang_env = golang.get_env()
         myprocess.run_process(['go', 'build'], cwd=source_folder, env=golang_env)
 
-    def binary_source_folder(self, tag, binary_name):
+    def binary_source_folder(self, tag, binary_name) -> Path:
         directory = self.get_source_directory(tag)
         return directory / 'cmd' / binary_name
 
-    def make_binary_symlink_in_parent_folder(self, tag, binary_name, symlink_name):
+    def make_binary_symlink_in_parent_folder(self, tag, binary_name, symlink_name) -> None:
         source_folder = self.binary_source_folder(tag, binary_name)
         binary = source_folder / binary_name
 
@@ -170,13 +170,13 @@ class ArwenToolsModule(StandaloneModule):
 
 
 class GolangModule(StandaloneModule):
-    def __init__(self, key: str, aliases: List[str] = None):
+    def __init__(self, key: str, aliases: List[str] = None) -> None:
         if aliases is None:
             aliases = list()
 
         super().__init__(key, aliases)
 
-    def _post_install(self, tag: str):
+    def _post_install(self, tag: str) -> None:
         parent_directory = self.get_parent_directory()
         utils.ensure_folder(path.join(parent_directory, "GOPATH"))
         utils.ensure_folder(path.join(parent_directory, "GOCACHE"))
@@ -197,7 +197,7 @@ class GolangModule(StandaloneModule):
 
 
 class NodejsModule(StandaloneModule):
-    def __init__(self, key: str, aliases: List[str]):
+    def __init__(self, key: str, aliases: List[str]) -> None:
         super().__init__(key, aliases)
 
     def _post_install(self, tag: str):
@@ -218,7 +218,7 @@ class NodejsModule(StandaloneModule):
 
 
 class Rust(DependencyModule):
-    def __init__(self, key: str, aliases: List[str] = None):
+    def __init__(self, key: str, aliases: List[str] = None) -> None:
         if aliases is None:
             aliases = list()
 
@@ -268,7 +268,7 @@ class Rust(DependencyModule):
 
 
 class MclSignerModule(StandaloneModule):
-    def __init__(self, key: str, aliases: List[str] = None):
+    def __init__(self, key: str, aliases: List[str] = None) -> None:
         if aliases is None:
             aliases = list()
 

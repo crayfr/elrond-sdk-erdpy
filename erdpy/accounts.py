@@ -2,7 +2,7 @@ import logging
 import os
 from binascii import unhexlify
 from os import path
-from typing import Any, Optional
+from typing import Any, List, Optional, Union
 
 from erdpy import constants, errors, utils
 from erdpy.errors import LedgerError
@@ -14,19 +14,19 @@ logger = logging.getLogger("accounts")
 
 
 class AccountsRepository:
-    def __init__(self, folder):
+    def __init__(self, folder) -> None:
         utils.ensure_folder(folder)
         self.folder = folder
 
-    def get_account(self, name):
+    def get_account(self, name) -> 'Account':
         pem_file = path.join(self.folder, f"{name}.pem")
         return Account(pem_file=pem_file)
 
-    def generate_accounts(self, count):
+    def generate_accounts(self, count) -> None:
         for i in range(count):
             self.generate_account(i)
 
-    def generate_account(self, name):
+    def generate_account(self, name) -> None:
         seed, pubkey = generate_pair()
         address = Address(pubkey).bech32()
 
@@ -34,7 +34,7 @@ class AccountsRepository:
         pem_file = path.join(self.folder, pem_file)
         pem.write(pem_file, seed, pubkey, name=f"{name}:{address}")
 
-    def get_all(self):
+    def get_all(self) -> List['Account']:
         accounts = []
         for pem_file in os.listdir(self.folder):
             pem_file = path.join(self.folder, pem_file)
@@ -51,7 +51,7 @@ class Account(IAccount):
                  pem_index: int = 0,
                  key_file: str = "",
                  pass_file: str = "",
-                 ledger: bool = False):
+                 ledger: bool = False) -> None:
         self.address = Address(address)
         self.pem_file = pem_file
         self.pem_index = int(pem_index)
@@ -68,7 +68,7 @@ class Account(IAccount):
             self.private_key_seed = seed.hex()
             self.address = Address(address_from_key_file)
 
-    def sync_nonce(self, proxy: Any):
+    def sync_nonce(self, proxy: Any) -> None:
         logger.info("Account.sync_nonce()")
         self.nonce = proxy.get_account_nonce(self.address)
         logger.info(f"Account.sync_nonce() done: {self.nonce}")
@@ -86,7 +86,7 @@ class Address(IAddress):
     BECH32_LENGTH = 62
     _value_hex: str
 
-    def __init__(self, value):
+    def __init__(self, value: Union[str, bytes]) -> None:
         self._value_hex = ''
 
         if not value:
@@ -117,19 +117,19 @@ class Address(IAddress):
         assert isinstance(b32, str)
         return b32
 
-    def pubkey(self):
+    def pubkey(self) -> bytes:
         self._assert_validity()
         pubkey = bytes.fromhex(self._value_hex)
         return pubkey
 
-    def is_contract_address(self):
+    def is_contract_address(self) -> bool:
         return self.hex().startswith(constants.SC_HEX_PUBKEY_PREFIX)
 
-    def _assert_validity(self):
+    def _assert_validity(self) -> None:
         if self._value_hex == '':
             raise errors.EmptyAddressError()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.bech32()
 
     @classmethod
@@ -137,7 +137,7 @@ class Address(IAddress):
         return Address("0" * 64)
 
 
-def _as_string(value):
+def _as_string(value: Union[str, bytes]) -> str:
     if isinstance(value, str):
         return value
     return value.decode("utf-8")

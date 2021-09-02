@@ -2,7 +2,7 @@ import itertools
 import logging
 import time
 from pathlib import Path
-from typing import Any, Dict, Iterator
+from typing import Any, Dict, Generator, Iterator
 
 import erdpy.config
 import erdpy.utils as utils
@@ -42,7 +42,7 @@ class TestnetConfiguration:
     features: Dict[str, Any]
     timing: Dict[str, Any]
 
-    def __init__(self, config):
+    def __init__(self, config) -> None:
         self.config = config
         self.folders = dict()
         self.networking = dict()
@@ -143,70 +143,70 @@ class TestnetConfiguration:
     def proxy_config_source(self):
         return self.folders['elrond_proxy_go'] / 'cmd' / 'proxy' / 'config'
 
-    def validator_key_files(self):
+    def validator_key_files(self) -> Generator[Path]:
         for config_folder in self.validator_config_folders():
             yield config_folder / 'validatorKey.pem'
 
-    def root(self):
+    def root(self) -> Path:
         return self.folders['testnet']
 
-    def genesis_time(self):
+    def genesis_time(self) -> int:
         return int(time.time()) + int(self.timing['genesis_delay'])
 
-    def seednode_folder(self):
+    def seednode_folder(self) -> Path:
         testnet = self.root()
         return testnet / 'seednode'
 
-    def seednode_config_folder(self):
+    def seednode_config_folder(self) -> Path:
         return self.seednode_folder() / 'config'
 
-    def seednode_address(self):
+    def seednode_address(self) -> str:
         host = self.networking['host']
         port = self.networking['port_seednode']
         identifier = self.networking['p2p_id_seednode']
         return f"/ip4/{host}/tcp/{port}/p2p/{identifier}"
 
-    def proxy_folder(self):
+    def proxy_folder(self) -> Path:
         testnet = self.root()
         return testnet / 'proxy'
 
-    def proxy_config_folder(self):
+    def proxy_config_folder(self) -> Path:
         return self.proxy_folder() / 'config'
 
-    def num_all_nodes(self):
+    def num_all_nodes(self) -> int:
         return self.num_all_validators() + self.num_all_observers()
 
-    def num_all_validators(self):
+    def num_all_validators(self) -> int:
         count = (
             self.shards['count'] * self.shards['validators_per_shard'] + self.metashard['validators']
         )
         return count
 
-    def num_all_observers(self):
+    def num_all_observers(self) -> int:
         count = (
             self.shards['count'] * self.shards['observers_per_shard'] + self.metashard['observers']
         )
         return count
 
-    def num_shards(self):
+    def num_shards(self) -> int:
         return self.shards['count']
 
-    def num_observers_per_shard(self):
+    def num_observers_per_shard(self) -> int:
         return self.shards['observers_per_shard']
 
-    def num_validators_per_shard(self):
+    def num_validators_per_shard(self) -> int:
         return self.shards['validators_per_shard']
 
-    def num_validators_in_metashard(self):
+    def num_validators_in_metashard(self) -> int:
         return self.metashard['validators']
 
-    def all_nodes_folders(self):
+    def all_nodes_folders(self) -> Generator[Path]:
         return itertools.chain(
             self.validator_folders(),
             self.observer_folders(),
         )
 
-    def all_nodes_config_folders(self):
+    def all_nodes_config_folders(self) -> Generator[Path]:
         return itertools.chain(
             self.validator_config_folders(),
             self.observer_config_folders(),

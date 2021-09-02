@@ -106,11 +106,11 @@ def setup_parser(args: List[str], subparsers: Any) -> Any:
     return subparsers
 
 
-def _add_project_arg(sub: Any):
+def _add_project_arg(sub: Any) -> None:
     sub.add_argument("project", nargs='?', default=os.getcwd(), help="🗀 the project directory (default: current directory)")
 
 
-def _add_project_or_bytecode_arg(sub: Any):
+def _add_project_or_bytecode_arg(sub: Any) -> None:
     group = sub.add_mutually_exclusive_group(required=True)
     group.add_argument("--project", default=os.getcwd(),
                        help="🗀 the project directory (default: current directory)")
@@ -118,29 +118,29 @@ def _add_project_or_bytecode_arg(sub: Any):
                        help="the file containing the WASM bytecode")
 
 
-def _add_contract_arg(sub: Any):
+def _add_contract_arg(sub: Any) -> None:
     sub.add_argument("contract", help="🖄 the address of the Smart Contract")
 
 
-def _add_function_arg(sub: Any):
+def _add_function_arg(sub: Any) -> None:
     sub.add_argument("--function", required=True, help="the function to call")
 
 
-def _add_arguments_arg(sub: Any):
+def _add_arguments_arg(sub: Any) -> None:
     sub.add_argument("--arguments", nargs='+', help="arguments for the contract transaction, as numbers or hex-encoded. E.g. --arguments 42 0x64 1000 0xabba")
 
 
-def _add_metadata_arg(sub: Any):
+def _add_metadata_arg(sub: Any) -> None:
     sub.add_argument("--metadata-not-upgradeable", dest="metadata_upgradeable", action="store_false", help="‼ mark the contract as NOT upgradeable (default: upgradeable)")
     sub.add_argument("--metadata-payable", dest="metadata_payable", action="store_true", help="‼ mark the contract as payable (default: not payable)")
     sub.set_defaults(metadata_upgradeable=True, metadata_payable=False)
 
 
-def list_templates(args: Any):
+def list_templates(args: Any) -> None:
     projects.list_project_templates()
 
 
-def create(args: Any):
+def create(args: Any) -> None:
     name = args.name
     template = args.template
     directory = args.directory
@@ -148,12 +148,12 @@ def create(args: Any):
     projects.create_from_template(name, template, directory)
 
 
-def clean(args: Any):
+def clean(args: Any) -> None:
     project = args.project
     projects.clean_project(project)
 
 
-def build(args: Any):
+def build(args: Any) -> None:
     project = args.project
     options = {
         "debug": args.debug,
@@ -296,7 +296,7 @@ def upgrade(args: Any):
         dump_tx_and_result(txdict, result, args)
 
 
-def query(args: Any):
+def query(args: Any) -> Any:
     logger.debug("query")
 
     contract_address = args.contract

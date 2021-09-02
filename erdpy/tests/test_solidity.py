@@ -9,14 +9,14 @@ logging.basicConfig(level=logging.ERROR)
 
 
 class ProjectSolidityTestCase(utils.ProjectTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
 
     @unittest.skip('manual run only')
-    def test_solidity_hello(self):
+    def test_solidity_hello(self) -> None:
         _, contract = self.build("solidity_hello")
 
-        def myflow():
+        def myflow() -> None:
             self.deploy(contract)
             answer = self.query_number(contract, "getValue()")
             self.assertEqual(42, answer)
@@ -24,25 +24,25 @@ class ProjectSolidityTestCase(utils.ProjectTestCase):
         self.environment.run_flow(myflow)
 
     @unittest.skip('manual run only')
-    def test_solidity_soll_001(self):
+    def test_solidity_soll_001(self) -> None:
         _, contract = self.build("solidity_soll_001")
 
-        def myflow():
+        def myflow() -> None:
             self.deploy(contract)
             answer = add(30, 12)
             self.assertEqual(42, answer)
 
-        def add(a, b):
+        def add(a, b) -> int:
             args = [a, b]
             return self.query_number(contract, "add(uint256,uint256)", args)
 
         self.environment.run_flow(myflow)
 
     @unittest.skip('manual run only')
-    def test_solidity_soll_003(self):
+    def test_solidity_soll_003(self) -> None:
         _, contract = self.build("solidity_soll_003")
 
-        def myflow():
+        def myflow() -> None:
             self.deploy(contract, owner=self.alice)
 
             transfer(self.alice, self.bob, 1000)
@@ -54,11 +54,11 @@ class ProjectSolidityTestCase(utils.ProjectTestCase):
             self.assertEqual(1200, balance_of(self.bob))
             self.assertEqual(800, balance_of(self.carol))
 
-        def transfer(sender, recipient, amount):
+        def transfer(sender, recipient, amount) -> None:
             args = [recipient.address_formatted(), amount]
             self.execute(contract, sender, "transfer(address,uint256)", args)
 
-        def balance_of(account):
+        def balance_of(account) -> int:
             args = [account.address_formatted()]
             return self.query_number(contract, "balanceOf(address)", args)
 

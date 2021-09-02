@@ -14,7 +14,7 @@ logger = logging.getLogger("Project")
 # TODO use pathlib.Path everywhere
 class Project:
 
-    def __init__(self, directory: Union[Path, str]):
+    def __init__(self, directory: Union[Path, str]) -> None:
         self.path = Path(directory).expanduser().resolve()
         self.directory = str(self.path)
 
@@ -39,18 +39,18 @@ class Project:
     def perform_build(self) -> None:
         raise NotImplementedError()
 
-    def get_file_wasm(self):
+    def get_file_wasm(self) -> Path:
         return self.find_file_in_output("*.wasm")
 
-    def find_file_globally(self, pattern):
+    def find_file_globally(self, pattern) -> Path:
         folder = self.directory
         return self.find_file_in_folder(folder, pattern)
 
-    def find_file_in_output(self, pattern):
+    def find_file_in_output(self, pattern) -> Path:
         folder = path.join(self.directory, "output")
         return self.find_file_in_folder(folder, pattern)
 
-    def find_file_in_folder(self, folder, pattern):
+    def find_file_in_folder(self, folder, pattern) -> Path:
         files = list(Path(folder).rglob(pattern))
 
         if len(files) == 0:

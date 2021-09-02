@@ -24,7 +24,7 @@ def sign_transaction(transaction: ITransaction, account: IAccount) -> str:
     return signature_hex
 
 
-def sign_message_with_bls_key(message, seed):
+def sign_message_with_bls_key(message: str, seed: str) -> str:
     dependencies.install_module("mcl_signer")
     tool = path.join(dependencies.get_module_directory("mcl_signer"), "signer")
 

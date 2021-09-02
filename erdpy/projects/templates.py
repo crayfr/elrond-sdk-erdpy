@@ -3,7 +3,7 @@ import logging
 import os
 from os import path
 from pathlib import Path
-from typing import Union
+from typing import Any, Union
 
 from erdpy import errors, utils
 from erdpy.projects import shared
@@ -29,7 +29,7 @@ def list_project_templates():
 
 
 class TemplateSummary():
-    def __init__(self, name, repository):
+    def __init__(self, name: str, repository: Any) -> None:
         self.name = name
         self.github = repository.github
         self.language = repository.get_language(name)
@@ -87,7 +87,7 @@ def _load_as_template(directory):
 
 
 class Template:
-    def __init__(self, directory):
+    def __init__(self, directory) -> None:
         self.directory = directory
 
     def apply(self, template_name, project_name):
@@ -107,7 +107,7 @@ class TemplateClang(Template):
 class TemplateRust(Template):
     CARGO_TOML = "Cargo.toml"
 
-    def _patch(self):
+    def _patch(self) -> None:
         logger.info("Patching cargo files...")
         self._patch_cargo()
         self._patch_cargo_wasm()
@@ -121,7 +121,7 @@ class TemplateRust(Template):
         logger.info("Patching test files...")
         self._patch_mandos_tests()
 
-    def _patch_cargo(self):
+    def _patch_cargo(self) -> None:
         cargo_path = path.join(self.directory, TemplateRust.CARGO_TOML)
 
         cargo_file = CargoFile(cargo_path)
@@ -138,7 +138,7 @@ class TemplateRust(Template):
 
         cargo_file.save()
 
-    def _patch_cargo_wasm(self):
+    def _patch_cargo_wasm(self) -> None:
         cargo_path = path.join(self.directory, "wasm", TemplateRust.CARGO_TOML)
 
         cargo_file = CargoFile(cargo_path)
@@ -166,7 +166,7 @@ class TemplateRust(Template):
             ]
         )
 
-    def _patch_cargo_abi(self):
+    def _patch_cargo_abi(self) -> None:
         cargo_path = path.join(self.directory, "abi", TemplateRust.CARGO_TOML)
         if not path.isfile(cargo_path):
             return
@@ -195,7 +195,7 @@ class TemplateRust(Template):
             ]
         )
 
-    def _patch_source_code_wasm(self):
+    def _patch_source_code_wasm(self) -> None:
         lib_path = path.join(self.directory, "wasm", "src", "lib.rs")
 
         self._replace_in_files(
@@ -205,7 +205,7 @@ class TemplateRust(Template):
             ]
         )
 
-    def _patch_source_code_abi(self):
+    def _patch_source_code_abi(self) -> None:
         abi_main_path = path.join(self.directory, "abi", "src", "main.rs")
         if not path.exists(abi_main_path):
             return
@@ -222,7 +222,7 @@ class TemplateRust(Template):
             ]
         )
 
-    def _patch_source_code_tests(self):
+    def _patch_source_code_tests(self) -> None:
         test_dir_path = path.join(self.directory, "tests")
         if not path.isdir(test_dir_path):
             return
@@ -238,7 +238,7 @@ class TemplateRust(Template):
             ]
         )
 
-    def _patch_mandos_tests(self):
+    def _patch_mandos_tests(self) -> None:
         test_dir_path = path.join(self.directory, "mandos")
         if not path.isdir(test_dir_path):
             return
@@ -257,7 +257,7 @@ class TemplateRust(Template):
             data["name"] = data.get("name", "").replace(self.template_name, self.project_name)
             utils.write_json_file(file, data)
 
-    def _replace_in_files(self, files, replacements):
+    def _replace_in_files(self, files, replacements) -> None:
         for file in files:
             content = utils.read_file(file)
 

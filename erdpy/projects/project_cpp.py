@@ -11,7 +11,7 @@ logger = logging.getLogger("ProjectCpp")
 
 
 class ProjectCpp(Project):
-    def __init__(self, directory):
+    def __init__(self, directory) -> None:
         super().__init__(directory)
 
     def perform_build(self):
@@ -96,7 +96,7 @@ class ProjectCpp(Project):
 
 
 class CppBuildConfiguration:
-    def __init__(self, project, debug):
+    def __init__(self, project, debug) -> None:
         self.project = project
         self.debug = debug
         self.exports = self._get_exports()

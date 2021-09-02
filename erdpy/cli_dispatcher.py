@@ -33,21 +33,21 @@ def setup_parser(args: List[str], subparsers: Any) -> Any:
     return subparsers
 
 
-def enqueue_transaction(args: Any):
+def enqueue_transaction(args: Any) -> None:
     queue = TransactionQueue()
     queue.enqueue_transaction(args)
 
 
-def dispatch_transactions(args: Any):
+def dispatch_transactions(args: Any) -> None:
     queue = TransactionQueue()
     queue.dispatch_transactions(args)
 
 
-def dispatch_transactions_continuously(args: Any):
+def dispatch_transactions_continuously(args: Any) -> None:
     queue = TransactionQueue()
     queue.dispatch_transactions_continuously(args)
 
 
-def clean_transactions_queue():
+def clean_transactions_queue() -> None:
     queue = TransactionQueue()
     queue.clean_transactions_queue()

@@ -6,7 +6,7 @@ logger = logging.getLogger("block-atlas")
 
 
 class BlockAtlas:
-    def __init__(self, url, coin):
+    def __init__(self, url, coin) -> None:
         self.url = url
         self.coin = coin
 

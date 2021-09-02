@@ -48,7 +48,7 @@ class TransactionQueue:
     _TXS_FIELD_NAME = "transactions"
     _TXS_INFO_FILE_NAME = "txs_info.txt"
 
-    def __init__(self):
+    def __init__(self) -> None:
         tools_folder = get_tools_folder()
 
         txs_file_dir = path.join(tools_folder, "transactions")

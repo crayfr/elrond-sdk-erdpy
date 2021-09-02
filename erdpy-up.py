@@ -260,7 +260,7 @@ def upgrade_erdpy_config():
 class InstallError(Exception):
     inner = None
 
-    def __init__(self, message, inner=None):
+    def __init__(self, message, inner=None) -> None:
         super().__init__(message)
         self.inner = inner
 

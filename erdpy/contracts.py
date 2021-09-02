@@ -15,14 +15,14 @@ HEX_PREFIX = "0X"
 
 
 class QueryResult:
-    def __init__(self, as_base64: str, as_hex: str, as_number: int):
+    def __init__(self, as_base64: str, as_hex: str, as_number: int) -> None:
         self.base64 = as_base64
         self.hex = as_hex
         self.number = as_number
 
 
 class SmartContract:
-    def __init__(self, address: Optional[Address] = None, bytecode=None, metadata=None):
+    def __init__(self, address: Optional[Address] = None, bytecode=None, metadata=None) -> None:
         self.address = Address(address)
         self.bytecode = bytecode
         self.metadata = metadata or CodeMetadata()
@@ -211,7 +211,7 @@ def ensure_even_length(string: str) -> str:
 
 
 class CodeMetadata:
-    def __init__(self, upgradeable: bool = True, payable: bool = False):
+    def __init__(self, upgradeable: bool = True, payable: bool = False) -> None:
         self.upgradeable = upgradeable
         self.payable = payable
 

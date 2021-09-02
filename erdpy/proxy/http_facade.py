@@ -1,8 +1,9 @@
+from typing import Any
 import requests
 from erdpy import errors
 
 
-def do_get(url):
+def do_get(url) -> Any:
     try:
         response = requests.get(url)
         response.raise_for_status()
@@ -17,7 +18,7 @@ def do_get(url):
         raise errors.ProxyRequestError(url, err)
 
 
-def do_post(url, payload):
+def do_post(url, payload) -> Any:
     try:
         response = requests.post(url, json=payload)
         response.raise_for_status()

@@ -10,7 +10,7 @@ from erdpy.transactions import BunchOfTransactions
 logger = logging.getLogger("dipatcher.scenarios")
 
 
-def main():
+def main() -> None:
     parser = ArgumentParser()
     parser.add_argument("--proxy", required=True)
     parser.add_argument("--pem-folder", required=True)

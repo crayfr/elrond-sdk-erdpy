@@ -52,7 +52,7 @@ def prepare_args_for_stake(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.STAKE, num_of_nodes)
 
 
-def prepare_args_for_top_up(args: Any):
+def prepare_args_for_top_up(args: Any) -> None:
     args.data = 'stake'
     args.receiver = VALIDATORS_SMART_CONTRACT_ADDRESS
 
@@ -60,7 +60,7 @@ def prepare_args_for_top_up(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.STAKE, 1)
 
 
-def prepare_args_for_unstake(args: Any):
+def prepare_args_for_unstake(args: Any) -> None:
     parsed_keys, num_keys = utils.parse_keys(args.nodes_public_keys)
     args.data = 'unStake' + parsed_keys
     args.receiver = VALIDATORS_SMART_CONTRACT_ADDRESS
@@ -69,7 +69,7 @@ def prepare_args_for_unstake(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.UNSTAKE, num_keys)
 
 
-def prepare_args_for_unbond(args: Any):
+def prepare_args_for_unbond(args: Any) -> None:
     parsed_keys, num_keys = utils.parse_keys(args.nodes_public_keys)
     args.data = 'unBond' + parsed_keys
     args.receiver = VALIDATORS_SMART_CONTRACT_ADDRESS
@@ -78,7 +78,7 @@ def prepare_args_for_unbond(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.UNBOND, num_keys)
 
 
-def prepare_args_for_unjail(args: Any):
+def prepare_args_for_unjail(args: Any) -> None:
     parsed_keys, num_keys = utils.parse_keys(args.nodes_public_keys)
     args.data = 'unJail' + parsed_keys
     args.receiver = VALIDATORS_SMART_CONTRACT_ADDRESS
@@ -87,7 +87,7 @@ def prepare_args_for_unjail(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.UNJAIL, num_keys)
 
 
-def prepare_args_for_change_reward_address(args: Any):
+def prepare_args_for_change_reward_address(args: Any) -> None:
     reward_address = Address(args.reward_address)
     args.data = 'changeRewardAddress@' + reward_address.hex()
     args.receiver = VALIDATORS_SMART_CONTRACT_ADDRESS
@@ -96,7 +96,7 @@ def prepare_args_for_change_reward_address(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.CHANGE_REWARD_ADDRESS)
 
 
-def prepare_args_for_claim(args: Any):
+def prepare_args_for_claim(args: Any) -> None:
     args.data = 'claim'
     args.receiver = VALIDATORS_SMART_CONTRACT_ADDRESS
 
@@ -104,7 +104,7 @@ def prepare_args_for_claim(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.CLAIM)
 
 
-def prepare_args_for_unstake_nodes(args: Any):
+def prepare_args_for_unstake_nodes(args: Any) -> None:
     parsed_keys, num_keys = utils.parse_keys(args.nodes_public_keys)
     args.data = 'unStakeNodes' + parsed_keys
 
@@ -113,7 +113,7 @@ def prepare_args_for_unstake_nodes(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.UNSTAKE, num_keys)
 
 
-def prepare_args_for_unstake_tokens(args: Any):
+def prepare_args_for_unstake_tokens(args: Any) -> None:
     args.data = 'unStakeTokens'
     args.data += '@' + utils.str_int_to_hex_str(str(args.unstake_value))
 
@@ -122,7 +122,7 @@ def prepare_args_for_unstake_tokens(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.UNSTAKE_TOKENS)
 
 
-def prepare_args_for_unbond_nodes(args: Any):
+def prepare_args_for_unbond_nodes(args: Any) -> None:
     parsed_keys, num_keys = utils.parse_keys(args.nodes_public_keys)
     args.data = 'unBondNodes' + parsed_keys
 
@@ -131,7 +131,7 @@ def prepare_args_for_unbond_nodes(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.UNBOND, num_keys)
 
 
-def prepare_args_for_unbond_tokens(args: Any):
+def prepare_args_for_unbond_tokens(args: Any) -> None:
     args.data = 'unBondTokens'
     args.data += '@' + utils.str_int_to_hex_str(str(args.unbond_value))
 
@@ -140,7 +140,7 @@ def prepare_args_for_unbond_tokens(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.UNBOND_TOKENS)
 
 
-def prepare_args_for_clean_registered_data(args: Any):
+def prepare_args_for_clean_registered_data(args: Any) -> None:
     args.data = 'cleanRegisteredData'
 
     args.receiver = VALIDATORS_SMART_CONTRACT_ADDRESS
@@ -148,7 +148,7 @@ def prepare_args_for_clean_registered_data(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.STAKE)
 
 
-def prepare_args_for_restake_unstaked_nodes(args: Any):
+def prepare_args_for_restake_unstaked_nodes(args: Any) -> None:
     parsed_keys, num_keys = utils.parse_keys(args.nodes_public_keys)
     args.data = 'reStakeUnStakedNodes' + parsed_keys
 
@@ -157,7 +157,7 @@ def prepare_args_for_restake_unstaked_nodes(args: Any):
         args.gas_limit = estimate_system_sc_call(args, MetaChainSystemSCsCost.STAKE, num_keys)
 
 
-def estimate_system_sc_call(args, base_cost, factor=1):
+def estimate_system_sc_call(args, base_cost, factor=1) -> int:
     num_bytes = len(args.data)
     gas_limit = MIN_GAS_LIMIT + num_bytes * GAS_PER_DATA_BYTE
     gas_limit += factor * base_cost

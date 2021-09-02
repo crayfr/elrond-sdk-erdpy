@@ -61,21 +61,21 @@ def setup_parser(args: List[str], subparsers: Any) -> Any:
     sub.set_defaults(func=testnet_clean)
 
 
-def testnet_start(args):
+def testnet_start(args) -> None:
     logger.info("Starting testnet...")
     testnet.start(args)
 
 
-def testnet_config(args):
+def testnet_config(args) -> None:
     logger.info("Configuring testnet...")
     testnet.configure(args)
 
 
-def testnet_clean(args):
+def testnet_clean(args) -> None:
     logger.info("Cleaning testnet...")
     testnet.clean(args)
 
 
-def testnet_prerequisites(args):
+def testnet_prerequisites(args) -> None:
     logger.info("Preparing prerequisites...")
     testnet.install_dependencies()

@@ -1,3 +1,6 @@
+from typing import Tuple
+
+
 class ElrondLedgerAppConfiguration:
     data_activated: bool
     account_index: int
@@ -31,7 +34,7 @@ def compare_versions(version1: str, version2: str) -> int:
     return 1
 
 
-def version_tuple(v):
+def version_tuple(v: str) -> Tuple[str, ...]:
     filled = []
     for point in v.split("."):
         filled.append(point.zfill(8))

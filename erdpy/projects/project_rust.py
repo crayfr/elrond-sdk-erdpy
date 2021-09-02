@@ -12,7 +12,7 @@ logger = logging.getLogger("ProjectRust")
 
 
 class ProjectRust(Project):
-    def __init__(self, directory):
+    def __init__(self, directory) -> None:
         super().__init__(directory)
         self.cargo_file = self._get_cargo_file()
 
@@ -114,7 +114,7 @@ class ProjectRust(Project):
 class CargoFile:
     data: Dict[str, Any]
 
-    def __init__(self, path):
+    def __init__(self, path) -> None:
         self.data = {}
         self.path = path
 
@@ -166,7 +166,7 @@ class CargoFile:
     def publish(self, value):
         self._get_package().update({"publish": value})
 
-    def save(self):
+    def save(self) -> None:
         utils.write_toml_file(self.path, self.data)
 
     def _get_package(self) -> Dict[str, Any]:

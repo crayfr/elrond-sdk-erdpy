@@ -2,6 +2,7 @@ import logging
 import subprocess
 from os import path
 from pathlib import Path
+from typing import List
 
 from erdpy import dependencies, errors, myprocess, utils
 from erdpy.projects.project_base import Project
@@ -10,7 +11,7 @@ logger = logging.getLogger("ProjectSol")
 
 
 class ProjectSol(Project):
-    def __init__(self, directory):
+    def __init__(self, directory) -> None:
         super().__init__(directory)
 
     def perform_build(self):
@@ -54,7 +55,7 @@ class ProjectSol(Project):
         output = myprocess.run_process(args)
         utils.write_file(self.file_ll, output)
 
-    def _emit_funcions(self):
+    def _emit_funcions(self) -> None:
         logger.info("_emit_funcions")
 
         tool = self._get_soll_path()
@@ -62,28 +63,28 @@ class ProjectSol(Project):
         output = myprocess.run_process(args)
         utils.write_file(self.file_functions, output)
 
-    def _do_llvm_link(self):
+    def _do_llvm_link(self) -> None:
         logger.info("_do_llvm_link")
 
         tool = path.join(self._get_llvm_path(), "llvm-link")
         args = [tool, self.file_ll, self.file_main_ll, "-o", self.file_bc]
         myprocess.run_process(args)
 
-    def _do_llvm_opt(self):
+    def _do_llvm_opt(self) -> None:
         logger.info("_do_llvm_opt")
 
         tool = path.join(self._get_llvm_path(), "opt")
         args = [tool, "-std-link-opts", "-Oz", "-polly", self.file_bc, "-o", self.file_bc]
         myprocess.run_process(args)
 
-    def _do_llc(self):
+    def _do_llc(self) -> None:
         logger.info("_do_llc")
 
         tool = path.join(self._get_llvm_path(), "llc")
         args = [tool, "-O3", "-filetype=obj", self.file_bc, "-o", self.file_o]
         myprocess.run_process(args)
 
-    def _do_wasm_ld(self):
+    def _do_wasm_ld(self) -> None:
         logger.info("_do_wasm_ld")
 
         tool = path.join(self._get_llvm_path(), "wasm-ld")
@@ -101,12 +102,12 @@ class ProjectSol(Project):
         ]
         myprocess.run_process(args)
 
-    def _get_soll_path(self):
+    def _get_soll_path(self) -> str:
         directory = dependencies.get_module_directory("soll")
         return path.join(directory, "soll")
 
-    def _get_llvm_path(self):
+    def _get_llvm_path(self) -> str:
         return dependencies.get_module_directory("llvm")
 
-    def get_dependencies(self):
+    def get_dependencies(self) -> List[str]:
         return ["soll", "llvm"]

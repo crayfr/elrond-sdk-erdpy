@@ -14,7 +14,7 @@ logger = logging.getLogger("proxy")
 
 
 class ElrondProxy(IElrondProxy):
-    def __init__(self, url: str):
+    def __init__(self, url: str) -> None:
         self.url = url
 
     def get_account_nonce(self, address: IAddress) -> int:

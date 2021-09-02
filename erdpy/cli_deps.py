@@ -28,14 +28,14 @@ def setup_parser(subparsers: Any) -> Any:
     return subparsers
 
 
-def install(args: Any):
+def install(args: Any) -> None:
     name: str = args.name
     tag: str = args.tag
     overwrite: bool = args.overwrite
     dependencies.install_module(name, tag, overwrite)
 
 
-def check(args: Any):
+def check(args: Any) -> None:
     name: str = args.name
     tag: str = args.tag
     module = dependencies.get_module_by_key(name)

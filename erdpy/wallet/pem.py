@@ -69,7 +69,7 @@ def parse_validator_pem(pem_file, index: int = 0):
     return seed, bls_key
 
 
-def read_bls_keys(lines):
+def read_bls_keys(lines: List[str]) -> List[str]:
     bls_keys = []
 
     for line in lines:
@@ -85,7 +85,7 @@ def read_bls_keys(lines):
     return bls_keys
 
 
-def read_validators_private_keys(lines):
+def read_validators_private_keys(lines: List[str]) -> List[List[str]]:
     private_keys = []
 
     private_keys_lines = [list(key_lines) for is_next_key, key_lines in
@@ -96,7 +96,7 @@ def read_validators_private_keys(lines):
     return private_keys
 
 
-def get_bytes_from_private_key(private_key):
+def get_bytes_from_private_key(private_key: Union[str, bytes]) -> bytes:
     key_base64 = private_key
     key_hex = base64.b64decode(key_base64).hex()
     key_bytes = bytes.fromhex(key_hex)
@@ -104,7 +104,7 @@ def get_bytes_from_private_key(private_key):
     return key_bytes
 
 
-def write(pem_file: Union[str, Path], seed: bytes, pubkey: bytes, name: str = ""):
+def write(pem_file: Union[str, Path], seed: bytes, pubkey: bytes, name: str = "") -> None:
     pem_file = path.expanduser(pem_file)
 
     if not name:

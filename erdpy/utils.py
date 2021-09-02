@@ -9,7 +9,7 @@ import sys
 import tarfile
 import zipfile
 from pathlib import Path
-from typing import Any, List, Union, Optional, cast, IO, Dict
+from typing import Any, List, MutableMapping, Tuple, Union, Optional, cast, IO, Dict
 
 import toml
 
@@ -19,22 +19,22 @@ logger = logging.getLogger("utils")
 
 
 class Object:
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self.__dict__)
 
-    def to_json(self):
+    def to_json(self) -> str:
         data_json = json.dumps(self.__dict__, indent=4)
         return data_json
 
 
 class ObjectEncoder(json.JSONEncoder):
-    def default(self, obj):
+    def default(self, obj) -> Any:
         if isinstance(obj, Object):
             return obj.__dict__
         return json.JSONEncoder.default(self, obj)
 
 
-def omit_fields(data: Any, fields: List[str] = []):
+def omit_fields(data: Any, fields: List[str] = []) -> Any:
     if isinstance(data, dict):
         for field in fields:
             data.pop(field, None)
@@ -53,7 +53,7 @@ def untar(archive_path: str, destination_folder: str) -> None:
     logger.debug("untar done.")
 
 
-def unzip(archive_path, destination_folder):
+def unzip(archive_path, destination_folder) -> None:
     logger.debug(f"unzip [{archive_path}] to [{destination_folder}].")
 
     ensure_folder(destination_folder)
@@ -63,11 +63,11 @@ def unzip(archive_path, destination_folder):
     logger.debug("unzip done.")
 
 
-def ensure_folder(folder: Union[str, Path]):
+def ensure_folder(folder: Union[str, Path]) -> None:
     pathlib.Path(folder).mkdir(parents=True, exist_ok=True)
 
 
-def read_lines(file: str):
+def read_lines(file: str) -> List[str]:
     with open(file) as f:
         lines = f.readlines()
     lines = [line.strip() for line in lines]
@@ -104,18 +104,18 @@ def read_text_file(path: Path) -> str:
         return text_file.read()
 
 
-def write_file(f: Any, text: str):
+def write_file(f: Any, text: str) -> int:
     if isinstance(f, str) or isinstance(f, pathlib.PosixPath):
         with open(f, "w") as f:
             return f.write(text)
     return f.write(text)
 
 
-def read_toml_file(filename):
+def read_toml_file(filename: Any) -> Dict[str, Any]:
     return toml.load(str(filename))
 
 
-def write_toml_file(filename, data):
+def write_toml_file(filename: Any, data: Any) -> None:
     with open(str(filename), "w") as f:
         toml.dump(data, f)
 
@@ -127,12 +127,12 @@ def read_json_file(filename: Union[str, Path]) -> Dict[str, Any]:
     return data
 
 
-def write_json_file(filename: str, data: Any):
+def write_json_file(filename: str, data: Any) -> None:
     with open(filename, "w") as f:
         json.dump(data, f, indent=4)
 
 
-def dump_out_json(data: Any, outfile: Any = None):
+def dump_out_json(data: Any, outfile: Any = None) -> None:
     if not outfile:
         outfile = sys.stdout
 
@@ -140,12 +140,12 @@ def dump_out_json(data: Any, outfile: Any = None):
     outfile.write("\n")
 
 
-def prettify_json_file(filename: str):
+def prettify_json_file(filename: str) -> None:
     data = read_json_file(filename)
     write_json_file(filename, data)
 
 
-def get_subfolders(folder):
+def get_subfolders(folder) -> List[str]:
     return [item.name for item in os.scandir(folder) if item.is_dir() and not item.name.startswith(".")]
 
 
@@ -155,7 +155,7 @@ def mark_executable(file: str) -> None:
     os.chmod(file, st.st_mode | stat.S_IEXEC)
 
 
-def find_in_dictionary(dictionary, compound_path):
+def find_in_dictionary(dictionary, compound_path) -> Any:
     keys = compound_path.split(".")
     node = dictionary
     for key in keys:
@@ -215,7 +215,7 @@ def str_int_to_hex_str(number_str: str) -> str:
     return bytes_str
 
 
-def parse_keys(bls_public_keys):
+def parse_keys(bls_public_keys) -> Tuple[str, int]:
     keys = bls_public_keys.split(',')
     parsed_keys = ''
     for key in keys:
@@ -224,7 +224,7 @@ def parse_keys(bls_public_keys):
 
 
 # https://code.visualstudio.com/docs/python/debugging
-def breakpoint():
+def breakpoint() -> None:
     import debugpy
     debugpy.listen(5678)
     print("Waiting for debugger attach")
@@ -232,7 +232,7 @@ def breakpoint():
     debugpy.breakpoint()
 
 
-def log_explorer(chain, name, path, details):
+def log_explorer(chain: str, name: str, path: str, details: str) -> None:
     networks = {
         "1": ("Elrond Mainnet Explorer", "https://explorer.elrond.com"),
         "T": ("Elrond Testnet Explorer", "https://testnet-explorer.elrond.com"),
@@ -245,9 +245,9 @@ def log_explorer(chain, name, path, details):
         return
 
 
-def log_explorer_contract_address(chain, address):
+def log_explorer_contract_address(chain, address) -> None:
     log_explorer(chain, "contract address", "accounts", address)
 
 
-def log_explorer_transaction(chain, transaction_hash):
+def log_explorer_transaction(chain, transaction_hash) -> None:
     log_explorer(chain, "transaction", "transactions", transaction_hash)

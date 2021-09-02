@@ -65,37 +65,37 @@ def _add_name_arg(sub: Any):
     sub.add_argument("name", help="the name for which to check")
 
 
-def dns_resolve(args: Any):
+def dns_resolve(args: Any) -> None:
     addr = resolve(args.name, ElrondProxy(args.proxy))
     if addr.hex() != Address.zero().hex():
         print(addr.bech32())
 
 
-def dns_validate_name(args: Any):
+def dns_validate_name(args: Any) -> None:
     validate_name(args.name, args.shard_id, ElrondProxy(args.proxy))
 
 
-def get_name_hash(args: Any):
+def get_name_hash(args: Any) -> None:
     print(name_hash(args.name).hex())
 
 
-def get_dns_address_for_name(args: Any):
+def get_dns_address_for_name(args: Any) -> None:
     name = args.name
     dns_address = dns_address_for_name(name)
     print(dns_address)
 
 
-def get_dns_address_for_name_hex(args: Any):
+def get_dns_address_for_name_hex(args: Any) -> None:
     name = args.name
     dns_address = dns_address_for_name(name)
     print(dns_address.hex())
 
 
-def get_registration_cost(args: Any):
+def get_registration_cost(args: Any) -> None:
     print(registration_cost(args.shard_id, ElrondProxy(args.proxy)))
 
 
-def get_version(args: Any):
+def get_version(args: Any) -> None:
     proxy = ElrondProxy(args.proxy)
     if args.all:
         t = PrettyTable(['Shard ID', 'Contract address (bech32)', 'Contract address (hex)', 'Version'])
@@ -109,7 +109,7 @@ def get_version(args: Any):
         print(version(shard_id, proxy))
 
 
-def print_dns_addresses_table(args: Any):
+def print_dns_addresses_table(args: Any) -> None:
     t = PrettyTable(['Shard ID', 'Contract address (bech32)', 'Contract address (hex)'])
     for shard_id in range(0, 256):
         address = compute_dns_address_for_shard_id(shard_id)

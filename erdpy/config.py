@@ -45,7 +45,7 @@ def get_dependency_tag(key: str) -> str:
     return get_value(f"dependencies.{key}.tag")
 
 
-def set_dependency_tag(key: str, tag: str):
+def set_dependency_tag(key: str, tag: str) -> None:
     set_value(f"dependencies.{key}.tag", tag)
 
 
@@ -62,7 +62,7 @@ def get_value(name: str) -> str:
     return value
 
 
-def set_value(name: str, value: Any):
+def set_value(name: str, value: Any) -> None:
     _guard_valid_name(name)
     data = read_file()
     active_config = data.get("active", "default")
@@ -72,7 +72,7 @@ def set_value(name: str, value: Any):
     write_file(data)
 
 
-def get_active():
+def get_active() -> Any:
     data = read_file()
     configs = data.get("configurations", {})
     active_config = data.get("active", "default")
@@ -80,14 +80,14 @@ def get_active():
     return configs.get(active_config, {})
 
 
-def set_active(name: str):
+def set_active(name: str) -> None:
     data = read_file()
     _guard_valid_config_name(data, name)
     data["active"] = name
     write_file(data)
 
 
-def create_new_config(name: str, template: str):
+def create_new_config(name: str, template: str) -> None:
     data = read_file()
     _guard_config_unique(data, name)
     new_config = {}
@@ -101,7 +101,7 @@ def create_new_config(name: str, template: str):
     write_file(data)
 
 
-def delete_config(name: str):
+def delete_config(name: str) -> None:
     _guard_valid_config_deletion(name)
     data = read_file()
     data["configurations"].pop(name, None)
@@ -110,24 +110,24 @@ def delete_config(name: str):
     write_file(data)
 
 
-def _guard_valid_name(name: str):
+def _guard_valid_name(name: str) -> None:
     if name not in get_defaults().keys():
         raise errors.UnknownConfigurationError(name)
 
 
-def _guard_valid_config_name(config: Any, name: str):
+def _guard_valid_config_name(config: Any, name: str) -> None:
     configurations = config.get('configurations', {})
     if name not in configurations:
         raise errors.UnknownConfigurationError(name)
 
 
-def _guard_config_unique(config: Any, name: str):
+def _guard_config_unique(config: Any, name: str) -> None:
     configurations = config.get('configurations', {})
     if name in configurations:
         raise errors.ConfigurationShouldBeUniqueError(name)
 
 
-def _guard_valid_config_deletion(name: str):
+def _guard_valid_config_deletion(name: str) -> None:
     if name == "default":
         raise errors.ConfigurationProtectedError(name)
 
@@ -172,14 +172,14 @@ def read_file() -> Dict[str, Any]:
     return dict()
 
 
-def write_file(data: Dict[str, Any]):
+def write_file(data: Dict[str, Any]) -> None:
     if os.path.isfile(LOCAL_CONFIG_PATH):
         utils.write_json_file(LOCAL_CONFIG_PATH, data)
     else:
         utils.write_json_file(CONFIG_PATH, data)
 
 
-def add_config_args(argv):
+def add_config_args(argv: List[str]) -> List[str]:
     try:
         func, subcommand, *_ = argv
     except ValueError:

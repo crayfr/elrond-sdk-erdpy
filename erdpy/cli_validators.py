@@ -86,7 +86,7 @@ def setup_parser(args: List[str], subparsers: Any) -> Any:
     return subparsers
 
 
-def _add_common_arguments(args: List[str], sub: Any):
+def _add_common_arguments(args: List[str], sub: Any) -> None:
     cli_shared.add_proxy_arg(sub)
     cli_shared.add_wallet_args(args, sub)
     cli_shared.add_tx_args(args, sub, with_receiver=False, with_data=False, with_estimate_gas=True)
@@ -94,11 +94,11 @@ def _add_common_arguments(args: List[str], sub: Any):
     cli_shared.add_outfile_arg(sub, what="signed transaction, hash")
 
 
-def _add_nodes_arg(sub: Any):
+def _add_nodes_arg(sub: Any) -> None:
     sub.add_argument("--nodes-public-keys", required=True, help="the public keys of the nodes as CSV (addrA,addrB)")
 
 
-def do_stake(args: Any):
+def do_stake(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_stake(args)
@@ -110,7 +110,7 @@ def do_stake(args: Any):
         tx.dump_to(args.outfile)
 
 
-def do_unstake(args: Any):
+def do_unstake(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_unstake(args)
@@ -122,7 +122,7 @@ def do_unstake(args: Any):
         tx.dump_to(args.outfile)
 
 
-def do_unjail(args: Any):
+def do_unjail(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_unjail(args)
@@ -134,7 +134,7 @@ def do_unjail(args: Any):
         tx.dump_to(args.outfile)
 
 
-def do_unbond(args: Any):
+def do_unbond(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_unbond(args)
@@ -146,7 +146,7 @@ def do_unbond(args: Any):
         tx.dump_to(args.outfile)
 
 
-def change_reward_address(args: Any):
+def change_reward_address(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_change_reward_address(args)
@@ -158,7 +158,7 @@ def change_reward_address(args: Any):
         tx.dump_to(args.outfile)
 
 
-def do_claim(args: Any):
+def do_claim(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_claim(args)
@@ -170,7 +170,7 @@ def do_claim(args: Any):
         tx.dump_to(args.outfile)
 
 
-def do_unstake_nodes(args: Any):
+def do_unstake_nodes(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_unstake_nodes(args)
@@ -182,7 +182,7 @@ def do_unstake_nodes(args: Any):
         tx.dump_to(args.outfile)
 
 
-def do_unstake_tokens(args: Any):
+def do_unstake_tokens(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_unstake_tokens(args)
@@ -194,7 +194,7 @@ def do_unstake_tokens(args: Any):
         tx.dump_to(args.outfile)
 
 
-def do_unbond_nodes(args: Any):
+def do_unbond_nodes(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_unbond_nodes(args)
@@ -206,7 +206,7 @@ def do_unbond_nodes(args: Any):
         tx.dump_to(args.outfile)
 
 
-def do_unbond_tokens(args: Any):
+def do_unbond_tokens(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_unbond_tokens(args)
@@ -218,7 +218,7 @@ def do_unbond_tokens(args: Any):
         tx.dump_to(args.outfile)
 
 
-def do_clean_registered_data(args: Any):
+def do_clean_registered_data(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_clean_registered_data(args)
@@ -230,7 +230,7 @@ def do_clean_registered_data(args: Any):
         tx.dump_to(args.outfile)
 
 
-def do_restake_unstaked_nodes(args: Any):
+def do_restake_unstaked_nodes(args: Any) -> None:
     cli_shared.check_broadcast_args(args)
     cli_shared.prepare_nonce_in_args(args)
     validators.prepare_args_for_restake_unstaked_nodes(args)

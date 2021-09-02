@@ -1,8 +1,9 @@
+from erdpy.projects.project_base import Project
 import os
 from erdpy import dependencies
 import logging
 from os import path
-from typing import Any, Dict
+from typing import Any, Dict, List
 from pathlib import Path
 
 from erdpy import errors, utils, guards
@@ -15,7 +16,7 @@ from erdpy.projects.project_sol import ProjectSol
 logger = logging.getLogger("projects.core")
 
 
-def load_project(directory):
+def load_project(directory) -> Project:
     guards.is_directory(directory)
 
     if shared.is_source_clang(directory):
@@ -30,7 +31,7 @@ def load_project(directory):
         raise errors.NotSupportedProject(directory)
 
 
-def build_project(directory: str, options: Dict[str, Any]):
+def build_project(directory: str, options: Dict[str, Any]) -> None:
     directory = path.expanduser(directory)
 
     logger.info("build_project.directory: %s", directory)
@@ -44,7 +45,7 @@ def build_project(directory: str, options: Dict[str, Any]):
     logger.info(f"WASM file generated: {relative_wasm_path}")
 
 
-def clean_project(directory: str):
+def clean_project(directory: str) -> None:
     directory = path.expanduser(directory)
     guards.is_directory(directory)
     project = load_project(directory)
@@ -52,7 +53,7 @@ def clean_project(directory: str):
     logger.info("Project cleaned.")
 
 
-def run_tests(args: Any):
+def run_tests(args: Any) -> None:
     project = args.project
     directory = args.directory
     wildcard = args.wildcard
@@ -66,7 +67,7 @@ def run_tests(args: Any):
     project.run_tests(directory, wildcard)
 
 
-def get_projects_in_workspace(workspace):
+def get_projects_in_workspace(workspace) -> List[Project]:
     guards.is_directory(workspace)
     subfolders = utils.get_subfolders(workspace)
     projects = []

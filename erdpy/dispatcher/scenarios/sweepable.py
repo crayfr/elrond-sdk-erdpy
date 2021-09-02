@@ -3,6 +3,7 @@
 import logging
 import sys
 from argparse import ArgumentParser
+from typing import Any
 
 from erdpy import errors
 from erdpy.accounts import AccountsRepository
@@ -15,7 +16,7 @@ GAS_PRICE = 100000000000000
 GAS_LIMIT = 50000
 
 
-def main():
+def main() -> Any:
     parser = ArgumentParser()
     parser.add_argument("--proxy", required=True)
     parser.add_argument("--senders-folder", required=True)

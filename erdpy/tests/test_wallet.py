@@ -17,12 +17,12 @@ logging.basicConfig(level=logging.INFO)
 
 
 class WalletTestCase(MyTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.alice = Account(pem_file=str(self.devnet_wallets.joinpath("users", "alice.pem")))
         self.multiple_bls_keys_file = self.testdata / 'multipleValidatorsKeys.pem'
 
-    def test_nacl_playground_signing(self):
+    def test_nacl_playground_signing(self) -> None:
         private_key_hex = "b8211b08edc8aca591bedf1b9aba47e4077e54ac7d4ceb2f1bc9e10c064d3e6c7a5679a427f6df7adf2310ddf5e570fd51e47e6b1511124d6b250b989b017588"
         private_key_bytes = bytes.fromhex(private_key_hex)
         private_key_seed_bytes = private_key_bytes[:32]
@@ -36,13 +36,13 @@ class WalletTestCase(MyTestCase):
             signed_bytes_hex)
         self.assertEqual(64, len(signature))
 
-    def test_pem_get_pubkey(self):
+    def test_pem_get_pubkey(self) -> None:
         pem_file = self.devnet_wallets.joinpath("users", "alice.pem")
         address = pem.get_pubkey(pem_file)
 
         self.assertEqual("0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1", address.hex())
 
-    def test_pem_parse_multiple(self):
+    def test_pem_parse_multiple(self) -> None:
         pem_file = self.testdata.joinpath("walletKey.pem")
 
         seed, address = pem.parse(pem_file, index=0)
@@ -61,14 +61,14 @@ class WalletTestCase(MyTestCase):
         self.assertEqual("4d9dcc1c09a6d00c4c9a389e662d9fe26e0bf4c859776d4d338b5a9c41fc12d4", seed.hex())
         self.assertEqual(Address("erd143907zxv0ujxr9q4mda7rmczn2xwhmqn7p9lfz666z8hd2lcks2szt5yql").hex(), address.hex())
 
-    def test_pem_parse(self):
+    def test_pem_parse(self) -> None:
         pem_file = self.devnet_wallets.joinpath("users", "alice.pem")
         seed, address = pem.parse(pem_file)
 
         self.assertEqual("413f42575f7f26fad3317a778771212fdb80245850981e48b58a4f25e344e8f9", seed.hex())
         self.assertEqual("0139472eff6886771a982f3083da5d421f24c29181e63888228dc81ca60d69e1", address.hex())
 
-    def test_parse_validator_pem_default_index(self):
+    def test_parse_validator_pem_default_index(self) -> None:
         pem_file = self.multiple_bls_keys_file
         seed, bls_key = pem.parse_validator_pem(pem_file)
 
@@ -81,7 +81,7 @@ class WalletTestCase(MyTestCase):
             "37633139626633613063353763646431666230386534363037636562616133363437643662393236316234363933663631653936653534623231386434343261",
             key_hex)
 
-    def test_parse_validator_pem_n_index(self):
+    def test_parse_validator_pem_n_index(self) -> None:
         pem_file = self.multiple_bls_keys_file
         seed, bls_key = pem.parse_validator_pem(pem_file, 3)
 
@@ -94,7 +94,7 @@ class WalletTestCase(MyTestCase):
             "38656265623037643239366164323532393430306234303638376137343161313335663833353766373966333966636232383934613666393730336135383136",
             key_hex)
 
-    def test_sign_transaction(self):
+    def test_sign_transaction(self) -> None:
         # With data
         transaction = Transaction()
         transaction.nonce = 0
@@ -124,10 +124,10 @@ class WalletTestCase(MyTestCase):
         transaction.chainID = "chainID"
         transaction.version = 1
         transaction.sign(self.alice)
-        
+
         self.assertEqual("83efd1bc35790ecc220b0ed6ddd1fcb44af6653dd74e37b3a49dcc1f002a1b98b6f79779192cca68bdfefd037bc81f4fa606628b751023122191f8c062362805", transaction.signature)
 
-    def test_generate_pair_pem(self):
+    def test_generate_pair_pem(self) -> None:
         seed, pubkey = generate_pair()
         pem_file = Path(self.testdata_out, "foo.pem")
         pem.write(pem_file, seed, pubkey)
@@ -136,7 +136,7 @@ class WalletTestCase(MyTestCase):
         self.assertEqual(seed, parsed_seed)
         self.assertEqual(pubkey, parsed_pubkey)
 
-    def test_derive_private_key(self):
+    def test_derive_private_key(self) -> None:
         # password = "Password1!"
         # keystore_file = "erd1zzhmdm2uwv9l7d2ak72c4cv6gek5c797s7qdkfc3jthvrvnxc2jqdsnp9y.json"
         mnemonic = "emotion spare multiply lecture rude machine raise radio ability doll depend equip pass ghost cabin delay birth opera shoe force any slow fluid old"

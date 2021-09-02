@@ -12,7 +12,7 @@ logger = logging.getLogger('ProjectClang')
 
 class ProjectClang(Project):
 
-    def __init__(self, directory):
+    def __init__(self, directory) -> None:
         super().__init__(directory)
         self.ensure_config_file()
 

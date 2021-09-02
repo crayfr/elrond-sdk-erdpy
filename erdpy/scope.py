@@ -12,7 +12,7 @@ proxy = None
 logger = logging.getLogger("scope")
 
 
-def initialize():
+def initialize() -> None:
     cwd = os.getcwd()
     testnet_toml = path.join(cwd, "testnet.toml")
 

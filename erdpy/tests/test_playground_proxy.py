@@ -5,7 +5,7 @@ import requests
 
 class TestPlaygroundElrondProxy(unittest.TestCase):
     @unittest.skip('manual run only')
-    def test_do_request(self):
+    def test_do_request(self) -> None:
         # use a valid proxy address
         url = "http://localhost:8001"
         # use a valid account address
@@ -16,7 +16,7 @@ class TestPlaygroundElrondProxy(unittest.TestCase):
         self.assertTrue(self, response is not None)
 
     @unittest.skip('manual run only')
-    def test_do_request_node_status(self):
+    def test_do_request_node_status(self) -> None:
         # use a valid proxy address
         url = "http://localhost:8001"
         # use a valid shard id

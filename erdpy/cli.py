@@ -27,7 +27,7 @@ from erdpy._version import __version__
 logger = logging.getLogger("cli")
 
 
-def main():
+def main() -> None:
     try:
         _do_main()
     except errors.KnownError as err:
@@ -38,7 +38,7 @@ def main():
         sys.exit(1)
 
 
-def _do_main():
+def _do_main() -> None:
     logging.basicConfig(level=logging.INFO)
     scope.initialize()
 
@@ -57,7 +57,7 @@ def _do_main():
         args.func(args)
 
 
-def setup_parser(args: List[str] = sys.argv[1:]):
+def setup_parser(args: List[str] = sys.argv[1:]) -> ArgumentParser:
     parser = ArgumentParser(
         prog="erdpy",
         usage="erdpy [-h] [-v] [--verbose] COMMAND-GROUP [-h] COMMAND ...",

@@ -1,5 +1,5 @@
 class SmartContractViewModel:
-    def __init__(self, project):
+    def __init__(self, project) -> None:
         self.FriendlyId = None  # this.FriendlyId = this.SourceFile.PathRelativeToWorkspace;
         self.SourceFile = MyFileViewModel()
         self.BytecodeFile = MyFileViewModel()
@@ -9,12 +9,12 @@ class SmartContractViewModel:
 
 
 class MyFileViewModel:
-    def __init__(self):
+    def __init__(self) -> None:
         self.PathRelativeToWorkspace = None
 
 
 class PropertiesOnNetworkViewModel:
-    def __init__(self):
+    def __init__(self) -> None:
         self.Address = None
         self.AddressTimestamp = None
         self.LatestRun = SmartContractRunViewModel()
@@ -23,7 +23,7 @@ class PropertiesOnNetworkViewModel:
 
 
 class SmartContractRunViewModel:
-    def __init__(self):
+    def __init__(self) -> None:
         self.Options = {
             "senderAddress": "",
             "functionName": "your_function",
@@ -37,7 +37,7 @@ class SmartContractRunViewModel:
 
 
 class WatchedVariableViewModel:
-    def __init__(self):
+    def __init__(self) -> None:
         self.Name = None
         self.FunctionName = None
         self.Arguments = None

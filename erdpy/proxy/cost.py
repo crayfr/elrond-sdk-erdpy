@@ -1,5 +1,6 @@
 import base64
 import logging
+from typing import Any
 
 from erdpy import scope
 from erdpy.projects import load_project
@@ -15,10 +16,10 @@ class TransactionCostEstimator:
     _SENDER_ADDRESS = "erd1l453hd0gt5gzdp7czpuall8ggt2dcv5zwmfdf3sd3lguxseux2fsmsgldz"
     _RECEIVER_ADDRESS = "erd1cux02zersde0l7hhklzhywcxk4u9n4py5tdxyx7vrvhnza2r4gmq4vw35r"
 
-    def __init__(self, proxy_url):
+    def __init__(self, proxy_url) -> None:
         self.proxy_url = proxy_url
 
-    def estimate_tx_cost(self, arguments, tx_type):
+    def estimate_tx_cost(self, arguments, tx_type) -> Any:
         if tx_type == TxTypes.MOVE_BALANCE:
             return self._estimate_move_balance(arguments.data)
         elif tx_type == TxTypes.SC_DEPLOY:
@@ -26,7 +27,7 @@ class TransactionCostEstimator:
         else:
             return self._estimate_sc_call(arguments.contract, arguments.function, arguments.arguments)
 
-    def _estimate_move_balance(self, data):
+    def _estimate_move_balance(self, data) -> Any:
         sender = self._SENDER_ADDRESS
         receiver = self._RECEIVER_ADDRESS
         data = data or ""
@@ -35,7 +36,7 @@ class TransactionCostEstimator:
         estimate = self._send_transaction(sender, receiver, data_bytes.decode())
         return estimate
 
-    def _estimate_sc_deploy(self, contract_path):
+    def _estimate_sc_deploy(self, contract_path) -> Any:
         if contract_path is None:
             logger.fatal("contract-path argument missing")
             return
@@ -49,7 +50,7 @@ class TransactionCostEstimator:
         estimate = self._send_transaction(sender, receiver, base64_bytecode.decode())
         return estimate
 
-    def _estimate_sc_call(self, sc_address, function, arguments):
+    def _estimate_sc_call(self, sc_address, function, arguments) -> Any:
         if function is None:
             logger.fatal("function argument missing")
             return
@@ -70,7 +71,7 @@ class TransactionCostEstimator:
         estimate = self._send_transaction(sender, receiver, base64_bytes.decode())
         return estimate
 
-    def _send_transaction(self, sender, receiver, data):
+    def _send_transaction(self, sender, receiver, data) -> Any:
         tx_object = {
             "nonce": 1,
             "value": "0",

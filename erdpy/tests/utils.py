@@ -1,4 +1,6 @@
 import base64
+from erdpy.projects.project_base import Project
+from typing import Any, Tuple
 import unittest
 from pathlib import Path
 
@@ -17,7 +19,7 @@ class MyTestCase(unittest.TestCase):
 
 
 class ProjectTestCase(MyTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.testdata = Path(__file__).parent.joinpath("testdata")
         self.environment = None
@@ -30,14 +32,14 @@ class ProjectTestCase(MyTestCase):
         self.david = Account(
             "dddddddd112233441122334411223344112233441122334411223344dddddddd")
 
-    def build(self, name):
+    def build(self, name) -> Tuple[Project, SmartContract]:
         project = self.load_project(name)
         project.build()
         bytecode = project.get_bytecode()
         contract = SmartContract(bytecode=bytecode)
         return project, contract
 
-    def load_project(self, name):
+    def load_project(self, name) -> Project:
         return projects.load_project(self.testdata.joinpath(name))
 
     def deploy(self, contract, owner=None):
@@ -45,21 +47,21 @@ class ProjectTestCase(MyTestCase):
         tx, address = self.environment.deploy_contract(contract, owner=owner)
         return tx, address
 
-    def execute(self, contract, caller, function, arguments=None):
+    def execute(self, contract, caller, function, arguments=None) -> None:
         self.environment.execute_contract(contract, caller, function, arguments)
 
-    def query_number(self, contract, function, arguments=None):
+    def query_number(self, contract, function, arguments=None) -> int:
         result = self.query_first(contract, function, arguments)
         result = base64_to_int(result)
         return result
 
-    def query_first(self, contract, function, arguments=None):
+    def query_first(self, contract, function, arguments=None) -> Any:
         results = self.environment.query_contract(contract, function, arguments)
         result = results[0]
         return result
 
 
-def base64_to_int(data):
+def base64_to_int(data) -> int:
     output = base64.b64decode(data)
     output = output.hex()
     output = int(output, 16)

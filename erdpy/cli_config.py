@@ -40,35 +40,35 @@ def setup_parser(subparsers: Any) -> Any:
     return subparsers
 
 
-def _add_name_arg(sub: Any):
+def _add_name_arg(sub: Any) -> None:
     sub.add_argument("name", help="the name of the configuration entry")
 
 
-def dump(args: Any):
+def dump(args: Any) -> None:
     data = config.get_active()
     utils.dump_out_json(data, sys.stdout)
 
 
-def get_value(args: Any):
+def get_value(args: Any) -> None:
     value = config.get_value(args.name)
     print(value)
 
 
-def set_value(args: Any):
+def set_value(args: Any) -> None:
     config.set_value(args.name, args.value)
 
 
-def new_config(args: Any):
+def new_config(args: Any) -> None:
     config.create_new_config(name=args.name, template=args.template)
     dump(None)
 
 
-def switch_config(args: Any):
+def switch_config(args: Any) -> None:
     config.set_active(args.name)
     dump(None)
 
 
-def list_configs(args: Any):
+def list_configs(args: Any) -> None:
     data = config.read_file()
     configurations = data.get('configurations', {})
     for config_name in configurations.keys():

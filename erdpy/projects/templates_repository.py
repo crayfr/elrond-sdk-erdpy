@@ -6,13 +6,13 @@ from erdpy import downloader, errors, utils, workstation
 
 
 class TemplatesRepository:
-    def __init__(self, key, url, github, relative_path):
+    def __init__(self, key, url, github, relative_path) -> None:
         self.key = key
         self.url = url
         self.github = github
         self.relative_path = relative_path
 
-    def download(self):
+    def download(self) -> None:
         self._download_if_old()
 
         templates_folder = self.get_folder()
@@ -24,7 +24,7 @@ class TemplatesRepository:
         archive = self._get_archive_path()
         utils.unzip(archive, templates_folder)
 
-    def _download_if_old(self):
+    def _download_if_old(self) -> None:
         CACHE_DURATION = 30
         archive = self._get_archive_path()
 

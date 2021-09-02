@@ -2,7 +2,7 @@ import base64
 import json
 import logging
 from collections import OrderedDict
-from typing import Any, Dict, List, TextIO
+from typing import Any, Dict, List, TextIO, Tuple
 
 from erdpy import errors, utils
 from erdpy.accounts import Account, Address
@@ -17,7 +17,7 @@ logger = logging.getLogger("transactions")
 
 
 class Transaction(ITransaction):
-    def __init__(self):
+    def __init__(self) -> None:
         self.hash = ""
         self.nonce = 0
         self.value = "0"
@@ -106,7 +106,7 @@ class Transaction(ITransaction):
         dump.__dict__.update(extra)
         f.writelines([dump.to_json(), "\n"])
 
-    def send(self, proxy: IElrondProxy):
+    def send(self, proxy: IElrondProxy) -> str:
         if not self.signature:
             raise errors.TransactionIsNotSigned()
 
@@ -181,14 +181,14 @@ class Transaction(ITransaction):
 
 
 class BunchOfTransactions:
-    def __init__(self):
+    def __init__(self) -> None:
         self.transactions: List[Transaction] = []
 
-    def add_prepared(self, transaction: Transaction):
+    def add_prepared(self, transaction: Transaction) -> None:
         self.transactions.append(transaction)
 
     def add(self, sender: Account, receiver_address: str, nonce: Any, value: Any, data: str, gas_price: int,
-            gas_limit: int, chain: str, version: int, options: int):
+            gas_limit: int, chain: str, version: int, options: int) -> None:
         tx = Transaction()
         tx.nonce = int(nonce)
         tx.value = str(value)
@@ -204,10 +204,10 @@ class BunchOfTransactions:
         tx.sign(sender)
         self.transactions.append(tx)
 
-    def add_tx(self, tx):
+    def add_tx(self, tx) -> None:
         self.transactions.append(tx)
 
-    def send(self, proxy: IElrondProxy):
+    def send(self, proxy: IElrondProxy) -> Tuple[int, List[str]]:
         logger.info(f"BunchOfTransactions.send: {len(self.transactions)} transactions")
         payload = [transaction.to_dictionary() for transaction in self.transactions]
         num_sent, hashes = proxy.send_transactions(payload)

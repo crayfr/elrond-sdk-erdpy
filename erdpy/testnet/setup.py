@@ -1,6 +1,7 @@
 import logging
 import shutil
 from os import path
+from typing import Any
 
 import erdpy.utils as utils
 from erdpy import dependencies, myprocess, workstation
@@ -15,7 +16,7 @@ logger = logging.getLogger("testnet")
 DEPENDENCY_KEYS = ["elrond_go", "elrond_proxy_go"]
 
 
-def install_dependencies():
+def install_dependencies() -> None:
     dependencies.install_module("golang")
 
     for key in DEPENDENCY_KEYS:
@@ -25,7 +26,7 @@ def install_dependencies():
         install_module(name, tag, overwrite)
 
 
-def configure(args):
+def configure(args: Any) -> None:
     testnet_config = TestnetConfiguration.from_file(args.configfile)
     logger.info('testnet folder is %s', testnet_config.root())
 
@@ -162,7 +163,7 @@ def patch_nodes_p2p_config(testnet_config: TestnetConfiguration, nodes_config_fo
         utils.write_toml_file(config, data)
 
 
-def overwrite_nodes_setup(testnet_config: TestnetConfiguration, nodes_config_folders):
+def overwrite_nodes_setup(testnet_config: TestnetConfiguration, nodes_config_folders) -> None:
     nodes_setup = nodes_setup_json.build(testnet_config)
 
     for index, config_folder in enumerate(nodes_config_folders):
@@ -170,7 +171,7 @@ def overwrite_nodes_setup(testnet_config: TestnetConfiguration, nodes_config_fol
         utils.write_json_file(str(config), nodes_setup)
 
 
-def overwrite_genesis_file(testnet_config: TestnetConfiguration, nodes_config_folders):
+def overwrite_genesis_file(testnet_config: TestnetConfiguration, nodes_config_folders) -> None:
     genesis = genesis_json.build(testnet_config)
 
     for index, config_folder in enumerate(nodes_config_folders):

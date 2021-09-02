@@ -15,7 +15,7 @@ class Apdu:
 
 
 class ElrondLedgerApp:
-    def __init__(self):
+    def __init__(self) -> None:
         self.transport = Transport(interface="hid", debug=False)  # Nano S/X using HID interface
 
     def close(self):

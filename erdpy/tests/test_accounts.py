@@ -9,10 +9,10 @@ logging.basicConfig(level=logging.INFO)
 
 
 class AccountsTestCase(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.testdata = Path(__file__).parent.joinpath("testdata")
 
-    def test_address(self):
+    def test_address(self) -> None:
         address = Address("erd1l453hd0gt5gzdp7czpuall8ggt2dcv5zwmfdf3sd3lguxseux2fsmsgldz")
         address_cloned = Address(address)
         self.assertEqual("fd691bb5e85d102687d81079dffce842d4dc328276d2d4c60d8fd1c3433c3293", address.hex())

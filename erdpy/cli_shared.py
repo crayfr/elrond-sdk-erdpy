@@ -84,21 +84,21 @@ def add_wallet_args(args: List[str], sub: Any):
     sub.add_argument("--sender-username", required=False, help="🖄 the username of the sender")
 
 
-def add_proxy_arg(sub: Any):
+def add_proxy_arg(sub: Any) -> None:
     sub.add_argument("--proxy", default=scope.get_proxy(), help="🔗 the URL of the proxy (default: %(default)s)")
 
 
-def add_outfile_arg(sub: Any, what: str = ""):
+def add_outfile_arg(sub: Any, what: str = "") -> None:
     what = f"({what})" if what else ""
     sub.add_argument("--outfile", type=FileType("w"), default=sys.stdout, help=f"where to save the output {what} (default: stdout)")
 
 
-def add_infile_arg(sub: Any, what: str = ""):
+def add_infile_arg(sub: Any, what: str = "") -> None:
     what = f"({what})" if what else ""
     sub.add_argument("--infile", type=FileType("r"), required=True, help=f"input file {what}")
 
 
-def add_omit_fields_arg(sub: Any):
+def add_omit_fields_arg(sub: Any) -> None:
     sub.add_argument("--omit-fields", default="[]", type=str, required=False, help="omit fields in the output payload (default: %(default)s)")
 
 
@@ -108,7 +108,7 @@ def parse_omit_fields_arg(args: Any) -> List[str]:
     return cast(List[str], parsed)
 
 
-def prepare_nonce_in_args(args: Any):
+def prepare_nonce_in_args(args: Any) -> None:
     if args.recall_nonce:
         if args.pem:
             account = Account(pem_file=args.pem, pem_index=args.pem_index)
@@ -124,7 +124,7 @@ def prepare_nonce_in_args(args: Any):
         args.nonce = account.nonce
 
 
-def add_broadcast_args(sub: Any, simulate=True, relay=False):
+def add_broadcast_args(sub: Any, simulate=True, relay=False) -> None:
     sub.add_argument("--send", action="store_true", default=False, help="✓ whether to broadcast the transaction (default: %(default)s)")
 
     if simulate:
@@ -133,7 +133,7 @@ def add_broadcast_args(sub: Any, simulate=True, relay=False):
         sub.add_argument("--relay", action="store_true", default=False, help="whether to relay the transaction (default: %(default)s)")
 
 
-def check_broadcast_args(args: Any):
+def check_broadcast_args(args: Any) -> None:
     if hasattr(args, "relay") and args.relay and args.send:
         raise errors.BadUsage("Cannot directly send a relayed transaction. Use 'erdpy tx new --relay' first, then 'erdpy tx send --data-file'")
     if args.send and args.simulate:
