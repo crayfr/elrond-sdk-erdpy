@@ -192,7 +192,12 @@ def add_config_args(argv):
     if subcommand not in extra_func:
         return argv
 
-    extra_args = [[f'--{key}', f'{value}'] for key, value in extra_func[subcommand].items()]
-    extra_args = list(chain.from_iterable(extra_args))
+    extra_args = []
+    for key, value in extra_func[subcommand].items():
+        extra_args.append(f'--{key}')
+        if value is True:
+            continue
+        extra_args.append(value)
+
     print(f"Added extra args from erdpy.json: {argv + extra_args}")
     return argv + extra_args
