@@ -197,7 +197,7 @@ def add_config_args(argv):
         extra_args.append(f'--{key}')
         if value is True:
             continue
-        extra_args.append(value)
+        extra_args.append(str(value))
 
     print(f"Added extra args from erdpy.json: {argv + extra_args}")
     return argv + extra_args
