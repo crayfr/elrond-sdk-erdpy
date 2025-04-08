@@ -1,16 +1,9 @@
 toml>=0.10.2
 types-toml
-bottle~=0.12.18
-requests~=2.24.0
+requests>=2.32.0,<3.0.0
 types-requests
-pynacl
-pycryptodomex
-cryptography>=3.2
-prettytable
-types-prettytable
-ledgercomm
-semver
+ledgercomm[hid]
+rich==13.3.4
+argcomplete==3.2.2
 
-pytest
-
-setuptools
+multiversx-sdk[ledger]==1.2.0

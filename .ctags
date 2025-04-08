@@ -4,6 +4,5 @@
 --exclude=.gitignore
 --exclude=.vscode
 --exclude=README*
---exclude=erdpy/tests/testdata/*
+--exclude=multiversx_sdk_cli/tests/testdata/*
 --exclude=__pycache__
---exclude=erdpy/ide/static/*

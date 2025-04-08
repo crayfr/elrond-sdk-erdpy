@@ -1,14 +1,60 @@
 # Description
-Elrond Python Command Line Tools and SDK for interacting with the Elrond Network (in general) and Smart Contracts (in particular). 
+Python Command Line Tools for interacting with Multivers<sup>X</sup>.
 
 ## Documentation
-[docs.elrond.com](https://docs.elrond.com/sdk-and-tools/erdpy/erdpy/)
+[docs.multiversx.com](https://docs.multiversx.com/sdk-and-tools/sdk-py/)
 
 ## CLI
-[CLI](erdpy/CLI.md)
+[CLI](CLI.md)
 
 ## Distribution
-[erdpy-up](https://docs.elrond.com/sdk-and-tools/erdpy/installing-erdpy/) and [PyPi](https://pypi.org/project/erdpy/#history)
+[pipx](https://docs.multiversx.com/sdk-and-tools/sdk-py/installing-mxpy/) [(PyPi)](https://pypi.org/project/multiversx-sdk-cli/#history)
 
-## CHANGELOG
-[CHANGELOG](erdpy/CHANGELOG.md)
+## Development setup
+
+Clone this repository and cd into it:
+
+```
+git clone https://github.com/multiversx/mx-sdk-py-cli.git
+cd mx-sdk-py-cli
+```
+
+### Virtual environment
+
+Create a virtual environment and install the dependencies:
+
+```
+python3 -m venv ./venv
+source ./venv/bin/activate
+pip install -r ./requirements.txt --upgrade
+```
+
+Install development dependencies, as well:
+
+```
+pip install -r ./requirements-dev.txt --upgrade
+```
+
+Allow `pre-commit` to automatically run on `git commit`:
+```
+pre-commit install
+```
+
+Above, `requirements.txt` should mirror the **dependencies** section of `pyproject.toml`.
+
+If using VSCode, restart it or follow these steps:
+ - `Ctrl + Shift + P`
+ - _Select Interpreter_
+ - Choose `./venv/bin/python`.
+
+### Using your local `mxpy`
+
+If you want to test the modifications you locally made to `mxpy`, set `PYTHONPATH` with the path to your local repository path.
+
+For example, if you cloned the repository at `~/mx-sdk-py-cli`, run:
+
+```
+export PYTHONPATH="~/mx-sdk-py-cli"
+```
+
+Then `mxpy` will use the code in your local repository.
